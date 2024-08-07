@@ -1,0 +1,407 @@
+<RsaApp>:
+ MDScreen:
+  name:"homePage"
+  md_bg_color:"#260712"
+  BoxLayout:
+   size:root.width,root.height
+   GridLayout:
+    cols:1
+    spacing:20
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     text:"The RSA Encrypting and Decrypting machine"
+     halign:"center"
+     color:"white"
+     font_size:50
+    MDCard:
+     MDLabel:
+      color:"white"
+      md_bg_color:"#364370"
+      text:"Select the task you like to perform from below"
+      halign:"center"
+      #text_size:self.width,self.height
+    #color:"white"
+    Button:
+     background_color:"green"
+     id:toGen
+     on_release:root.current="genTn"
+     text:"Generate RSA tokens"
+    Button:
+     background_color:"#00FFCE"
+     id:toEnco
+     on_release:
+      root.current="EncodePage"
+      root.ids.err.text =""
+      root.ids.pbk1.text=""
+      root.ids.totk.text = ""
+      root.ids.msgEn.text =""
+     text:"Encode message"
+    Button:
+     background_color:"green"
+     id:toDeco
+     on_release:
+      root.current="decryptMsgPage"
+      root.ids.err2.text =""
+      root.ids.tot2.text =""
+      root.ids.msgDcr.text=""
+      root.ids.prk1.text =""
+     text:"Decode an encrypted message"
+    Button:
+     color:"white"
+     on_release:root.openWeb()
+     size_hint:(1,None)
+     height:180
+     background_color:"#00FFCE"
+     #padding_x:20
+     padding_y:30
+     text:"For guide on how to use this machine and its source code, click to open its github repository"
+     text_size:self.width,self.height
+     font_size:50
+     align:"center"
+    Button:
+     size_hint:1,0.5
+     on_release:exit()
+     text:"Exit"
+ MDScreen:
+  name:"genTn"
+  md_bg_color:"#260712"
+  BoxLayout:
+   size:root.width,root.height
+   orientation:"vertical"
+   GridLayout:
+    spacing:30
+    cols:1
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     text:"RSA Token Generation page"
+     color:"yellow"
+     font_size:80
+     size_hint:1,0.5
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     size_hint:1,0.5
+     text:"Click the below button to generate your RSA keys"
+    Button:
+     background_color:"green"
+     size_hint:1,0.5
+     on_release:root.keyPage(root)
+     text:"Generate keys"
+    Button:
+     size_hint:1,0.5
+     on_release:root.current="homePage"
+     text:"Back"
+  
+ MDScreen:
+  name:"keyPage"
+  md_bg_color:"#260712"
+  BoxLayout:
+   size:root.width,root.height
+   GridLayout:
+    cols:1
+    spacing:25
+    background_color:"#260712"
+    size_hint:1,1
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     size_hint:1,0.3
+     #color:"yellow"
+     text:"Your tokens are below"
+     halign:"center"
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     id:pub
+     text:"Pubic Key is "
+     halign:"center"
+     size_hint:1,0.3
+     #text_size:self.width,self.height
+    Button:
+     id:cp1
+     #Disable=True
+     on_release:root.copy1(root.pubKey,cp1)
+     size_hint:0.3,0.1
+     text:"Click to copy Public key to clipboad"
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     id:prv
+     text: "Private key is "
+     halign:"center"
+     size_hint:1,0.3
+    Button:
+     id:cp2
+     size_hint:0.5,0.1
+     on_release:root.copy1(root.prvKey,cp2)
+     text:"Click to copy Private key to clipboard"
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     id:tnkey
+     size_hint:1,0.3
+     halign:"center"
+     text:"Totient is "
+    Button:
+     id:cp3
+     size_hint:0.8,0.1
+     on_release:root.copy1(root.n,cp3)
+     text:"Click to copy totient to Clipboard"
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     text:"Ensure you keep your tokens very secret"
+     font_size:50
+     halign:"center"
+     #color:"red"
+     size_hint:1,0.4
+     #text_size:self.width,self.height
+    Button:
+     size_hint:1,0.3
+     on_release:root.current="homePage"
+     text:"Return Home"
+ MDScreen:
+  name:"EncodePage"
+  md_bg_color:"#260712"
+  BoxLayout:
+   size:root.width,root.height
+   orientation:"vertical"
+   spacing:40
+   GridLayout:
+    cols:1
+    spacing:30
+    size_hint:(1,0.1)
+    MDLabel:
+     md_bg_color:"grey"
+     color:"white"
+     halign:"center"
+     text:"Encode Message Page"
+   ScrollView:
+    do_scroll_x:False
+    do_scroll_y:True
+    size_hint:(1,0.7)
+    MDCard:
+     orientation:"vertical"
+     size_hint:(1,None)
+     md_bg_color:"#260712"
+     height:2000
+     GridLayout:
+      cols:1
+      size_hint:(1,0.2)
+      spacing:20
+      MDLabel:
+       color:"white"
+       md_bg_color:"#364370"
+       text:"Enter the message you want to encode below"
+       halign:"center"
+       size_hint:(1,None)
+       height:120
+      TextInput:
+       id:msgEn
+       size_hint:(1,None)
+       height:150
+       #multiline:False
+      MDLabel:
+       color:"white"
+       md_bg_color:"#364370"
+       size_hint:(1,None)
+       height:120
+       halign:"center"
+       text:"Enter your Public key"
+      TextInput:
+       id:pbk1
+       size_hint:(1,None)
+       height:100
+       multiline:False
+      MDLabel:
+       color:"white"
+       md_bg_color:"#364370"
+       text:"Enter your Totient"
+       halign:"center"
+       size_hint:(1,None)
+       height:120
+      TextInput:
+       id:totk
+       size_hint:(1,None)
+       height:100
+       multiline:False
+      MDLabel:
+       color:"#de789c"
+       halign:"center"
+       md_bg_color:"#364370"
+       id:err
+       size_hint:(1,None)
+       height:150
+       text:""
+       #color:"red"
+      Button:
+       id:subt
+       background_color:"#00FFCE"
+       size_hint:1,None
+       height:120
+       on_release:
+        root.encodeMsg(root)
+       text:"Submit"
+   Button:
+    size_hint:1,0.1
+    id:rtrn
+    on_release:root.current="homePage"
+    text:"Return Home"
+ 
+ MDScreen:
+  name:"encryptedMsgPage"
+  md_bg_color:"#260712"
+  BoxLayout:
+   size:root.width,root.height
+   orientation:"vertical"
+   spacing:20
+   GridLayout:
+    cols:1
+    size_hint:1,0.2
+    spacing:30
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     size_hint:1,0.1
+     text:"Encrypted message is below, do well to keep them safe for decryption in future if you need the message"
+     text_size:self.width,self.height
+   MDLabel:
+    color:"white"
+    md_bg_color:"#364370"
+    id:encryptMsg
+    text:""
+    text_size:self.width,self.height
+   Button:
+    id:cp4
+    on_release:root.copy1(root.ciph2,cp4)
+    background_color:"#00FFCE"
+    size_hint:1,0.1
+    text:"Click to copy encoded cipher to clipboard"
+   Button:
+    on_release:root.current ="EncodePage"
+    size_hint:1,0.1
+    text:"Back"
+  
+ MDScreen:
+  name:"decryptMsgPage"
+  md_bg_color:"#260712"
+  BoxLayout:
+   orientation:"vertical"
+   spacing:40
+   GridLayout:
+    cols:1
+    spacing:30
+    size_hint:(1,0.2)
+    MDLabel:
+     halign:"center"
+     md_bg_color:"#364370"
+     color:"white"
+     text:"Decode Message Page"
+     halign:"center"
+   ScrollView:
+    do_scroll_x:False
+    do_scroll_y:True
+    size_hint:(1,0.7)
+    MDCard:
+     md_bg_color:"#260712"
+     orientation:"vertical"
+     size_hint:(1,None)
+     height:2000
+     GridLayout:
+      cols:1
+      spacing:40
+      size_hint:1,0.2
+      MDLabel:
+       color:"white"
+       md_bg_color:"#364370"
+       size_hint:(1,None)
+       height:120
+       text:"Enter your encoded cipher message"
+       halign:"center"
+       text_size:self.width,self.height
+      TextInput:
+       id:msgDcr
+       size_hint:(1,None)
+       height:150
+      MDLabel:
+       color:"white"
+       size_hint:(1,None)
+       height:120
+       md_bg_color:"#364370"
+       text:"Enter your private key"
+       halign:"center"
+      TextInput:
+       id:prk1
+       size_hint:(1,None)
+       height:100
+       multiline:False
+      MDLabel:
+       color:"white"
+       md_bg_color:"#364370"
+       text:"Enter your Totient"
+       size_hint:(1,None)
+       height:120
+       halign:"center"
+      TextInput:
+       id:tot2
+       multiline:False
+       size_hint:(1,None)
+       height:100
+      MDLabel:
+       color:"#de789c"
+       md_bg_color:"#364370"
+       id:err2
+       size_hint:1,None
+       height:120
+       text_size:self.width,self.height
+       text:""
+       halign:"center"
+      Button:
+       id:btn3
+       size_hint:(1,None)
+       height:120
+       on_release:
+        root.decodeMsg(root)
+       text:"Submit"
+   Button:
+    size_hint:1,0.1
+    on_release:root.current ="homePage"
+    id:"bk2"
+    text:"Back"
+  
+ MDScreen:
+  name:"ShowDecryptMsgPage"
+  md_bg_color:"#260712"
+  BoxLayout:
+   orientation:"vertical"
+   size:root.width,root.height
+   GridLayout:
+    cols:1
+    spacing:30
+    size_hint:1,0.3
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     text:"Below is the decrypted message"
+     #text_size:self.width,self.height
+    MDLabel:
+     color:"white"
+     md_bg_color:"#364370"
+     id:shwCrt
+     text:""
+     text_size:self.width,self.height
+   GridLayout:
+    cols:1
+    size_hint:(1,0.1)
+    Button:
+     id:cp5
+     on_release:root.copy1(root.decrtMsg,cp5)
+     background_color:"#00FFCE"
+     text:"Click to copy decoded message to clipboard"
+    Button:
+     id:rtn4
+     on_release:root.current="decryptMsgPage"
+     text:"Back"
+     
